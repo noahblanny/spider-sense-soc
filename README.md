@@ -100,6 +100,19 @@ The dedicated Suricata sensor forwards network security events to the centralize
 - `scripts/` - Security automation scripts
 - `docs/` - Additional project documentation
 
+## Skills Demonstrated
+
+Building Spider-Sense has given me hands-on experience with:
+
+- Deploying and managing a centralized Wazuh security monitoring environment
+- Configuring Wazuh agents across Linux, macOS, and virtualized systems
+- Integrating Suricata network detection with Wazuh
+- Building custom dashboards to visualize security events and alert trends
+- Using MITRE ATT&CK mappings to understand detected activity
+- Working with Proxmox to deploy and manage security-focused virtual machines
+- Troubleshooting networking, agents, services, and log collection across multiple systems
+- Using Git and GitHub to document and maintain a technical security project
+
 ## Planned Improvements
 
 - Document real security investigations from the lab
