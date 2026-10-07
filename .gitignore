@@ -1,0 +1,41 @@
+# Environment variables / secrets
+.env
+.env.*
+*.env
+secrets/
+credentials/
+credentials.json
+
+# Keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Logs
+*.log
+logs/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# OS/editor files
+.DS_Store
+.vscode/
+
+# Sensitive configuration backups
+*.bak
+*.backup
