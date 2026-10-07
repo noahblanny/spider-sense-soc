@@ -64,6 +64,32 @@ flowchart TB
 
 For a detailed breakdown of the environment and its current limitations, see [`architecture/architecture.md`](architecture/architecture.md).
 
+## Spider-Sense in Action
+
+### SOC Dashboard
+
+The custom Spider-Sense dashboard provides a centralized view of security activity across the monitored environment, including alert volume, severity, authentication activity, source activity, and endpoint detections.
+
+![Spider-Sense Wazuh Dashboard](screenshots/wazuh-dashboard.png)
+
+### Monitored Endpoints
+
+Wazuh agents provide endpoint telemetry from physical and virtual systems across the homelab.
+
+![Wazuh Monitored Endpoints](screenshots/wazuh-agents.png)
+
+### Threat Hunting
+
+Wazuh Threat Hunting provides visibility into security events across monitored endpoints and maps relevant activity to MITRE ATT&CK techniques.
+
+![Wazuh Threat Hunting](screenshots/wazuh-threat-hunting.png)
+
+### Suricata Integration
+
+The dedicated Suricata sensor forwards network security events to the centralized Wazuh server, allowing network-based detections to be analyzed alongside endpoint telemetry.
+
+![Suricata Events in Wazuh](screenshots/suricata-wazuh-events.png)
+
 ## Repository Structure
 
 - `architecture/` - Sanitized architecture diagrams
