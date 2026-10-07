@@ -29,6 +29,41 @@ Spider-Sense currently monitors multiple devices and systems within my homelab e
 
 The environment has generated tens of thousands of security events, giving me a dataset to practice alert analysis, investigation, and detection engineering.
 
+## Architecture
+
+Spider-Sense uses a centralized Wazuh server running in a dedicated Proxmox VM to collect and analyze security telemetry from physical and virtual endpoints across my homelab.
+
+```mermaid
+flowchart TB
+
+    NET["Home Network"]
+
+    MAC["MacBook<br/>macOS<br/>Wazuh Agent"]
+    WEB["webcrawler<br/>Linux Laptop<br/>Wazuh Agent"]
+    HOME["homeweb<br/>Physical Server<br/>Proxmox VE"]
+
+    KALI["Kali Linux VM<br/>Wazuh Agent"]
+
+    subgraph PROXMOX["Proxmox Environment"]
+        WAZUH["SpiderSense VM<br/>Wazuh Server"]
+        SURICATA["Suricata Sensor VM<br/>Suricata IDS<br/>Wazuh Agent"]
+    end
+
+    NET --- MAC
+    NET --- WEB
+    NET --- HOME
+
+    MAC --> KALI
+    HOME --> PROXMOX
+
+    MAC -. "Endpoint Telemetry" .-> WAZUH
+    KALI -. "Endpoint Telemetry" .-> WAZUH
+    WEB -. "Endpoint Telemetry" .-> WAZUH
+    SURICATA -. "Security Events" .-> WAZUH
+```
+
+For a detailed breakdown of the environment and its current limitations, see [`architecture/architecture.md`](architecture/architecture.md).
+
 ## Repository Structure
 
 - `architecture/` - Sanitized architecture diagrams
