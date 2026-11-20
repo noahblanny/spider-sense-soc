@@ -1,127 +1,74 @@
-# Spider-Sense SOC
+# Spider-Sense SOC 🕷️
 
-Spider-Sense is a personal Security Operations Center (SOC) homelab project designed to give me hands-on experience with security monitoring, threat detection, network visibility, and incident investigation.
+**A hands-on home Security Operations Center using Wazuh, Suricata, and Proxmox.**
 
-The project uses Wazuh and Suricata to collect and analyze security events across my homelab environment. I built the environment to move beyond classroom concepts and gain practical experience working with security alerts, logs, endpoints, and network traffic.
+[Architecture](architecture/architecture.md) · [Investigation 001](investigations/001-listening-port-changes.md) · [Investigation workflow](docs/investigation-workflow.md) · [Detection roadmap](docs/detection-roadmap.md)
 
-## Project Goals
+## Why I built it
 
-- Build and manage a functional home SOC environment
-- Centralize security monitoring across multiple endpoints
-- Monitor network activity using Suricata
-- Analyze security alerts and suspicious activity
-- Improve my ability to read and investigate security logs
-- Practice documenting security findings and investigations
-- Develop security automation using Python
+I wanted to move from reading about SIEMs and IDS tools to operating them: collecting endpoint telemetry, understanding network alerts, troubleshooting visibility, and documenting defensible investigations.
 
-## Technologies
+## System overview
 
-- Wazuh
-- Suricata
-- Linux
-- Proxmox
-- Python
-- Git/GitHub
-
-## Current Environment
-
-Spider-Sense currently monitors multiple devices and systems within my homelab environment. Wazuh provides centralized endpoint monitoring while Suricata provides network-based detection and visibility.
-
-The environment has generated tens of thousands of security events, giving me a dataset to practice alert analysis, investigation, and detection engineering.
-
-## Architecture
-
-Spider-Sense uses a centralized Wazuh server running in a dedicated Proxmox VM to collect and analyze security telemetry from physical and virtual endpoints across my homelab.
+| Component | Role |
+| --- | --- |
+| Proxmox VE host (`homeweb`) | Hosts the security monitoring VMs |
+| SpiderSense VM | Central Wazuh server for security telemetry and alerts |
+| Suricata sensor VM | Network IDS with a Wazuh agent forwarding sensor events |
+| MacBook, Kali VM, Linux laptop (`webcrawler`) | Monitored endpoints / lab systems |
 
 ```mermaid
-flowchart TB
-
-    NET["Home Network"]
-
-    MAC["MacBook<br/>macOS<br/>Wazuh Agent"]
-    WEB["webcrawler<br/>Linux Laptop<br/>Wazuh Agent"]
-    HOME["homeweb<br/>Physical Server<br/>Proxmox VE"]
-
-    KALI["Kali Linux VM<br/>Wazuh Agent"]
-
-    subgraph PROXMOX["Proxmox Environment"]
-        WAZUH["SpiderSense VM<br/>Wazuh Server"]
-        SURICATA["Suricata Sensor VM<br/>Suricata IDS<br/>Wazuh Agent"]
-    end
-
-    NET --- MAC
-    NET --- WEB
-    NET --- HOME
-
-    MAC --> KALI
-    HOME --> PROXMOX
-
-    MAC -. "Endpoint Telemetry" .-> WAZUH
-    KALI -. "Endpoint Telemetry" .-> WAZUH
-    WEB -. "Endpoint Telemetry" .-> WAZUH
-    SURICATA -. "Security Events" .-> WAZUH
+flowchart LR
+  M["macOS endpoint"] -->|Wazuh agent| W["Wazuh server\nProxmox VM"]
+  K["Kali lab VM"] -->|Wazuh agent| W
+  L["Linux laptop"] -->|Wazuh agent| W
+  S["Suricata sensor VM"] -->|Suricata events via Wazuh agent| W
+  N["Traffic visible to sensor"] --> S
+  W --> D["Dashboards & investigation"]
 ```
 
-For a detailed breakdown of the environment and its current limitations, see [`architecture/architecture.md`](architecture/architecture.md).
+**Visibility caveat:** The Suricata interface is attached to the Proxmox `vmbr0` bridge. This **does not** establish full visibility into every packet on the home network. See the [architecture notes](architecture/architecture.md).
 
-## Spider-Sense in Action
+## Evidence from the lab
 
-### SOC Dashboard
+| SOC dashboard | Monitored endpoints |
+| --- | --- |
+| ![Wazuh dashboard](screenshots/wazuh-dashboard.png) | ![Wazuh agents](screenshots/wazuh-agents.png) |
 
-The custom Spider-Sense dashboard provides a centralized view of security activity across the monitored environment, including alert volume, severity, authentication activity, source activity, and endpoint detections.
+| Threat hunting | Suricata events |
+| --- | --- |
+| ![Wazuh threat hunting](screenshots/wazuh-threat-hunting.png) | ![Suricata events in Wazuh](screenshots/suricata-wazuh-events.png) |
 
-![Spider-Sense Wazuh Dashboard](screenshots/wazuh-dashboard.png)
+Dashboard event counts are **telemetry volume, not verified incidents or confirmed attacks**.
 
-### Monitored Endpoints
+## Investigation: changing listening ports
 
-Wazuh agents provide endpoint telemetry from physical and virtual systems across the homelab.
+[Investigation 001](investigations/001-listening-port-changes.md) documents a Wazuh alert for changing listening TCP/UDP ports on a monitored MacBook.
 
-![Wazuh Monitored Endpoints](screenshots/wazuh-agents.png)
+- Compared snapshots with `diff -u`.
+- Inspected currently active ports and processes using `lsof` and `ps`.
+- Verified Tailscale activity on UDP 41641, but **did not** attribute the historical alerting ports to Tailscale.
+- **Disposition: inconclusive.** The ports had closed before process attribution could be established.
+- **Engineering takeaway:** Preserve timestamped process-to-port history so future alerts can be investigated retrospectively.
 
-### Threat Hunting
+This is an example of recording uncertainty rather than claiming a false positive or compromise without supporting evidence.
 
-Wazuh Threat Hunting provides visibility into security events across monitored endpoints and maps relevant activity to MITRE ATT&CK techniques.
+## Repository map
 
-![Wazuh Threat Hunting](screenshots/wazuh-threat-hunting.png)
+- [`architecture/`](architecture/) — Design and data flow
+- [`investigations/`](investigations/) — Evidence-based case notes
+- [`docs/investigation-workflow.md`](docs/investigation-workflow.md) — Repeatable analyst checklist
+- [`docs/detection-roadmap.md`](docs/detection-roadmap.md) — Gaps and planned improvements
+- [`screenshots/`](screenshots/) — Dashboard evidence
 
-### Suricata Integration
+## Skills demonstrated
 
-The dedicated Suricata sensor forwards network security events to the centralized Wazuh server, allowing network-based detections to be analyzed alongside endpoint telemetry.
+SIEM deployment and administration · IDS integration · Endpoint monitoring · Linux and virtualization · Log triage · Network visibility analysis · Investigation documentation · Security engineering tradeoffs
 
-![Suricata Events in Wazuh](screenshots/suricata-wazuh-events.png)
+## Status and next steps
 
-## Repository Structure
+**Working homelab; ongoing development.** Next steps include historical process/port telemetry, improved sensor coverage, reproducible sanitized configuration examples, and additional documented investigations. Planned work is not presented as already deployed.
 
-- `architecture/` - Sanitized architecture diagrams
-- `configs/` - Sanitized configuration examples
-- `detections/` - Detection rules and examples
-- `investigations/` - Documented security investigations
-- `screenshots/` - Sanitized dashboard screenshots
-- `scripts/` - Security automation scripts
-- `docs/` - Additional project documentation
+## Security and ethics
 
-## Skills Demonstrated
-
-Building Spider-Sense has given me hands-on experience with:
-
-- Deploying and managing a centralized Wazuh security monitoring environment
-- Configuring Wazuh agents across Linux, macOS, and virtualized systems
-- Integrating Suricata network detection with Wazuh
-- Building custom dashboards to visualize security events and alert trends
-- Using MITRE ATT&CK mappings to understand detected activity
-- Working with Proxmox to deploy and manage security-focused virtual machines
-- Troubleshooting networking, agents, services, and log collection across multiple systems
-- Using Git and GitHub to document and maintain a technical security project
-
-## Planned Improvements
-
-- Document real security investigations from the lab
-- Map detections to MITRE ATT&CK techniques
-- Develop Python-based security automation
-- Improve alert enrichment and correlation
-- Expand security monitoring capabilities
-- Document lessons learned and technical challenges
-
-## Security Notice
-
-All configurations, screenshots, logs, and network information published in this repository are sanitized to prevent disclosure of credentials, private keys, sensitive network information, or other private data.
+The lab is for authorized monitoring and testing. Do not commit credentials, API tokens, private keys, internal addresses, or unsanitized logs. Screenshots and example data should be reviewed for sensitive details before publishing.
