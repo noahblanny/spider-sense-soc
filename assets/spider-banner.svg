@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="310" viewBox="0 0 1200 310" role="img" aria-label="Noah Blanchard cybersecurity portfolio, Spider-Sense theme">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#080e20"/><stop offset=".55" stop-color="#12264a"/><stop offset="1" stop-color="#07101e"/></linearGradient><pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#25446e" stroke-width=".6" opacity=".45"/></pattern></defs>
+<rect width="1200" height="310" rx="18" fill="url(#bg)"/><rect width="1200" height="310" rx="18" fill="url(#grid)"/>
+<g fill="none" stroke="#ef3340" stroke-width="2.3" opacity=".75"><path d="M990 -30Q925 70 955 175T1200 320M1050 -30Q990 80 1030 180T1250 300M1120 -30Q1060 70 1100 170T1290 275"/><path d="M860 30Q1010 75 1200 20M835 105Q1015 140 1200 92M835 185Q1030 210 1200 168M885 260Q1035 277 1200 248"/></g>
+<g transform="translate(1035 145)" stroke="#f7f8fb" stroke-width="4" fill="none" stroke-linecap="round"><ellipse cx="0" cy="5" rx="19" ry="30" fill="#e52e3d" stroke="none"/><circle cx="0" cy="-35" r="16" fill="#e52e3d" stroke="none"/><path d="M-16 -12L-55 -38L-82 -24M16 -12L55 -38L82 -24M-18 0L-57 -8L-88 14M18 0L57 -8L88 14M-18 20L-52 42L-70 74M18 20L52 42L70 74M-8 28L-25 64L-19 91M8 28L25 64L19 91"/></g>
+<rect x="56" y="55" width="7" height="200" rx="3" fill="#ef3340"/>
+<text x="85" y="110" fill="#f4f7ff" font-size="55" font-family="Arial,Helvetica,sans-serif" font-weight="800">SPIDER-SENSE SOC</text>
+<text x="88" y="161" fill="#ff5361" font-size="25" font-family="Arial,Helvetica,sans-serif" font-weight="700" letter-spacing="4">HOME SECURITY OPERATIONS CENTER</text>
+<text x="88" y="206" fill="#d0dff4" font-size="22" font-family="Arial,Helvetica,sans-serif">Wazuh  •  Suricata  •  Proxmox  •  Investigation</text>
+<text x="88" y="251" fill="#8fb5e5" font-size="16" font-family="monospace">WITH GREAT VISIBILITY COMES GREAT RESPONSIBILITY.</text>
+</svg>
