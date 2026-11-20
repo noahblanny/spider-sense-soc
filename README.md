@@ -47,7 +47,7 @@ flowchart LR
 | --- | --- |
 | ![Wazuh threat hunting](screenshots/wazuh-threat-hunting.png) | ![Suricata events in Wazuh](screenshots/suricata-wazuh-events.png) |
 
-Dashboard event counts are **telemetry volume, not verified incidents or confirmed attacks**.
+Dashboard event counts are **telemetry volume, not verified incidents or confirmed attacks**. Private LAN IP addresses are redacted from the screenshots.
 
 ## Investigation: changing listening ports
 
