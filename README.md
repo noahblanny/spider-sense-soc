@@ -1,8 +1,16 @@
+<div align="center">
+
+![Spider-Sense SOC — home security operations center](assets/spider-banner.svg)
+
+![Status](https://img.shields.io/badge/STATUS-ACTIVE%20HOMELAB-ef3340?style=flat-square&labelColor=101b33) ![Wazuh](https://img.shields.io/badge/SIEM-WAZUH-244c87?style=flat-square&labelColor=101b33) ![Suricata](https://img.shields.io/badge/IDS-SURICATA-ef3340?style=flat-square&labelColor=101b33)
+
+</div>
+
 # Spider-Sense SOC 🕷️
 
 **A hands-on home Security Operations Center using Wazuh, Suricata, and Proxmox.**
 
-[Architecture](architecture/architecture.md) · [Investigation 001](investigations/001-listening-port-changes.md) · [Investigation workflow](docs/investigation-workflow.md) · [Detection roadmap](docs/detection-roadmap.md)
+[Architecture](architecture/architecture.md) · [Investigation 001](investigations/001-listening-port-changes.md) · [Investigation workflow](docs/investigation-workflow.md) · [Detection roadmap](docs/detection-roadmap.md) · [Investigation template](docs/investigation-template.md) · [Lab safety](docs/lab-safety.md)
 
 ## Why I built it
 
